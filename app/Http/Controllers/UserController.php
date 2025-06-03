@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,16 +22,11 @@ class UserController extends Controller
     {
         $search_by_id = User::where('id', $id)->first();
         if ($search_by_id) {
+            $jobs = Job::user()->where('user_id', $id)->get();
+            dd($jobs);
             return view('users.show', ['user' => $search_by_id]);
         } else {
             return "No user at nummer $id. It was deleted or wasn't created.";
         }
-    }
-
-    public function destroy(User $users)
-    {
-        $users->delete();
-
-        return redirect()->route('users.index');
     }
 }

@@ -16,21 +16,19 @@ class JobAssign extends Component
         $this->job = Job::find($job_id);
     }
 
-    public function attach($job_id)
+    public function attach()
     {
         $user = Auth::user();
-        $this->job = Job::find($job_id);
 
         $this->job->user()->attach($user->id);
 
         return redirect()->back();
     }
 
-    public function detach($job_id)
+    public function detach()
     {
         $user = Auth::user();
-        $this->job = Job::find($job_id);
-
+        
         $this->job->user()->detach($user->id);
 
         return redirect()->back();

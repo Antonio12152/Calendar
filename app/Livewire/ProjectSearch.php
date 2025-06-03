@@ -25,9 +25,14 @@ class ProjectSearch extends Component
         // if (Session::get('open_jobs') == null) {
         //     Session::put('open_jobs', []);
         // }
-        if (Session::get('open_projects') != null || Session::get('open_tasks') != null || Session::get('open_jobs') != null) {
+
+        if (Session::get('open_projects') != null) {
             $this->open_projects = Session::get('open_projects', []);
+        }
+        if (Session::get('open_tasks') != null) {
             $this->open_tasks = Session::get('open_tasks', []);
+        }
+        if (Session::get('open_jobs') != null) {
             $this->open_jobs = Session::get('open_jobs', []);
         }
     }
@@ -39,11 +44,19 @@ class ProjectSearch extends Component
             Session::pull('open_projects');
             Session::put('open_projects', array_diff($save, [$project_id]));
         } else {
-            Session::push('open_projects', $project_id);
+            Session::push('open_projects', [$project_id] = $project_id);
         }
-
-        return redirect()->back();
     }
+
+    public function getProject(Request $request, $project_id)
+    {
+        if (in_array($project_id, Session::get('open_projects', []))) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function toggleTask(Request $request, $tasks_id)
     {
         if (in_array($tasks_id, Session::get('open_tasks', []))) {
@@ -53,8 +66,6 @@ class ProjectSearch extends Component
         } else {
             Session::push('open_tasks', $tasks_id);
         }
-
-        return redirect()->back();
     }
 
     public function toggleJob(Request $request, $job_id)
@@ -66,7 +77,6 @@ class ProjectSearch extends Component
         } else {
             Session::push('open_jobs', $job_id);
         }
-        return redirect()->back();
     }
 
 
@@ -77,9 +87,15 @@ class ProjectSearch extends Component
             ->orWhere('id', 'like', '%' . $this->search . '%')
             ->get();
 
-        Session::put('open_projects', $this->open_projects);
-        Session::put('open_tasks', $this->open_tasks);
-        Session::put('open_jobs', $this->open_jobs);
+        if (Session::get('open_projects') == null) {
+            Session::put('open_projects', []);
+        }
+        if (Session::get('open_tasks') == null) {
+            Session::put('open_tasks', []);
+        }
+        if (Session::get('open_jobs') == null) {
+            Session::put('open_jobs', []);
+        }
 
         return view('livewire.project-search', [
             'projects' => $projects

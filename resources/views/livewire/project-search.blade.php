@@ -1,10 +1,19 @@
+@php
+$proj = Session::get('open_projects',[]);
+$object = [];
+foreach($proj as $obj){
+$object[$obj]=$obj;
+}
+function getProject($id) {
+global $object;
+if (!is_null($object)) {
+return true;
+} else {
+return false;
+}
+}
+@endphp
 <div>
-    {{--href="{{ route('projects.show', ['project_id' => $project->id]) }}" getFromSession() {
-    if(in_array($project->id, Session::get('open_projects'))){
-    show_tasks:true
-    }
-    {{in_array($project->id, Session::get('open_projects',[])) ? true : false}}
-    }--}}
     <div>
         <div class="query">
             <input
@@ -17,11 +26,6 @@
             <a href="{{ route('projects.create') }}">Create new projects (Only admin)</a>
         </div>
     </div>
-    <div>
-        @foreach(Session::get('open_projects',[]) as $open)
-        <p>{{$open}}</p>
-        @endforeach
-    </div>
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table class="w-full text-sm text-left rtl:text-right text-black dark:text-gray-400">
             <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -32,9 +36,10 @@
                 </tr>
             </thead>
             @foreach($projects as $project)
-            <tbody wire:key="project-{{$project->id}}" x-data="{show_tasks:false}">
+            <tbody wire:key="project-{{$project->id}}" x-data="{show_tasks: false}"
+                x-init="show_tasks={{getProject($project->id)}}">
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-                    <th x-on:click="show_tasks = !show_tasks"><a href="{{ route('projects.toggle', ['project_id' => $project->id]) }}">{{ $project->name }}</a></th>
+                    <th x-on:click="show_tasks = !show_tasks" wire:click="toggleProject({{$project->id}})">{{ $project->name }}</th>
 
                     <td>{{ $project->description }}</td>
                     <td>
@@ -48,9 +53,9 @@
                     </td>
                 </tr>
                 <tr x-bind:class="! show_tasks ? 'hidden' : ''">
-                    {{-- <td class="w-full" colspan="3">
+                    <td class="w-full" colspan="3">
                         @livewire('task-show', ['project_id' => $project->id], key('project-'.$project->id))
-                    </td> --}}
+                    </td>
                 </tr>
             </tbody>
 
