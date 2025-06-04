@@ -1,18 +1,3 @@
-@php
-$proj = Session::get('open_projects',[]);
-$object = [];
-foreach($proj as $obj){
-$object[$obj]=$obj;
-}
-function getProject($id) {
-global $object;
-if (!is_null($object)) {
-return true;
-} else {
-return false;
-}
-}
-@endphp
 <div>
     <div>
         <div class="query">
@@ -31,17 +16,16 @@ return false;
             <thead class="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-4 py-3">Name</th>
-                    <th scope="col" class="px-15 py-3">Description</th>
-                    <th scope="col" class="px-1 py-3">Action</th>
+                    <th scope="col" class="px-12 py-3">Description</th>
+                    <th scope="col" class="px-2 py-3">Action</th>
                 </tr>
             </thead>
             @foreach($projects as $project)
-            <tbody wire:key="project-{{$project->id}}" x-data="{show_tasks: false}"
-                x-init="show_tasks={{getProject($project->id)}}">
+            <tbody wire:key="project-{{$project->id}}" x-data="{show_tasks: @json(in_array($project->id, Session::get('open_projects',[])))}">
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                     <th x-on:click="show_tasks = !show_tasks" wire:click="toggleProject({{$project->id}})">{{ $project->name }}</th>
 
-                    <td>{{ $project->description }}</td>
+                    <td><a href="{{ route('projects.show', ['project_id' => $project->id]) }}">{{ $project->description }}</a></td>
                     <td>
                         <a class="text-green-600 dark:text-lime-400" href="{{ route('tasks.create', ['project_id' => $project->id]) }}">Add task</a>
                         <a class="text-blue-600 dark:text-sky-400" href="{{ route('projects.edit', ['project_id' => $project->id]) }}">Edit</a>

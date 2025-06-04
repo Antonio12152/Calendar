@@ -20,11 +20,9 @@ class UserController extends Controller
 
     public function show($id)
     {
-        $search_by_id = User::where('id', $id)->first();
-        if ($search_by_id) {
-            $jobs = Job::user()->where('user_id', $id)->get();
-            dd($jobs);
-            return view('users.show', ['user' => $search_by_id]);
+        $user = User::with('job.project', 'job.task')->find($id);
+        if ($user) {
+            return view('users.show', ['user' => $user, 'jobs' => $user->job]);
         } else {
             return "No user at nummer $id. It was deleted or wasn't created.";
         }

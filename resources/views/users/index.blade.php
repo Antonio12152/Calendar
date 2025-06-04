@@ -5,6 +5,6 @@
         </h2>
     </x-slot>
     <section class="w-full bg-white p-6 shadow-md rounded-lg">
-        @livewire('user-search', ['user' => $user])
+        @livewire('user-search')
     </section>
 </x-app-layout>

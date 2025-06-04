@@ -33,7 +33,7 @@ class ProjectController extends Controller
         $search_by_id = Project::where('id', $project_id)->first();
         if ($search_by_id) {
             $tasks = Task::where('project_id', $project_id)->get();
-            return view('home', ['project' => $search_by_id, 'tasks' => $tasks]); #change
+            return view('projects.show', ['project' => $search_by_id, 'tasks' => $tasks]); #change
         } else {
             return "No project at nummer $project_id. It was deleted or wasn't created.";
         }

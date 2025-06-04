@@ -10,9 +10,7 @@
     </div>
     @foreach($users as $user)
     <div class="">
-        <a href="{{ route('users.show', ['user' => $user->id]) }}">
-            <br />
-            {{ $user->id }}
+        <a href="{{ route('users.show', ['user_id' => $user->id]) }}">
             <br />
             {{ $user->name }}
             <br />
