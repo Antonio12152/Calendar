@@ -40,9 +40,6 @@ class ProjectSearch extends Component
         if (Session::get('open_projects') == null) {
             Session::put('open_projects', []);
         }
-        if (Session::get('open_tasks') == null) {
-            Session::put('open_tasks', []);
-        }
 
         return view('livewire.project-search', [
             'projects' => $projects

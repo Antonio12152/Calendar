@@ -34,6 +34,10 @@ class TaskShow extends Component
 
     public function render()
     {
+        if (Session::get('open_tasks') == null) {
+            Session::put('open_tasks', []);
+        }
+
         return view('livewire.task-show', ['tasks' => $this->tasks]);
     }
 }
