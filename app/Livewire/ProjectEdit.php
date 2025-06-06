@@ -14,12 +14,20 @@ class ProjectEdit extends Component
     public $project = null;
     public $start = null;
     public $end = null;
+    public $current_time = null;
 
     protected $rules = [
         'name' => 'required|min:4',
         'description' => 'required|min:10',
-        'start' => 'required|date',
+        'start' => 'required|date:current_time',
         'end' => 'required|date|after:start',
+    ];
+
+    protected $messages = [
+        'name.required' => 'Das Namefeld ist erforderlich.',
+        'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
+        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
     ];
 
     public function mount($project = null)
@@ -31,6 +39,7 @@ class ProjectEdit extends Component
             $this->start =  $project->start;
             $this->end = $project->end;
         }
+        $this->current_time = Carbon::now();
     }
 
     public function save()

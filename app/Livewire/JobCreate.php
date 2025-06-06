@@ -24,6 +24,13 @@ class JobCreate extends Component
         'end' => 'required|date|after:start'
     ];
 
+    protected $messages = [
+        'name.min' => 'Das Namefeld ist erforderlich.',
+        'description.min' => 'Das Beschreibungsfeld ist erforderlich.',
+        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
+    ];
+
     public function mount($project_id = null, $task_id = null)
     {
         if (!$project_id || !$task_id)  return redirect()->route('home');

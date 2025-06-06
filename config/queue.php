@@ -33,11 +33,11 @@ return [
         'sync' => [
             'driver' => 'sync',
         ],
-
+// 'DB_QUEUE_TABLE', 'projects'
         'database' => [
             'driver' => 'database',
             'connection' => env('DB_QUEUE_CONNECTION'),
-            'table' => env('DB_QUEUE_TABLE', 'projects'),
+            'table' => env('DB_QUEUE_TABLE', 'queue'), 
             'queue' => env('DB_QUEUE', 'default'),
             'retry_after' => (int) env('DB_QUEUE_RETRY_AFTER', 90),
             'after_commit' => false,
@@ -86,8 +86,8 @@ return [
     */
 
     'batching' => [
-        'database' => env('DB_CONNECTION', 'sqlite'),
-        'table' => 'project_batches',
+        'database' => env('DB_CONNECTION', 'mysql'),
+        'table' => 'queue_batches',
     ],
 
     /*
@@ -102,11 +102,11 @@ return [
     | Supported drivers: "database-uuids", "dynamodb", "file", "null"
     |
     */
-
+// 'table' => 'failed_projects',
     'failed' => [
         'driver' => env('QUEUE_FAILED_DRIVER', 'database-uuids'),
-        'database' => env('DB_CONNECTION', 'sqlite'),
-        'table' => 'failed_projects',
+        'database' => env('DB_CONNECTION', 'mysql'),
+        'table' => 'failed_queue',
     ],
 
 ];

@@ -18,7 +18,7 @@ class JobController extends Controller
         if ($jobs) {
             return view('tasks.show', compact('jobs'));
         } else {
-            return "No Job at project nummer $task_id.";
+            return "Kein Job mit der Nummer $task_id.";
         }
     }
 
@@ -36,7 +36,7 @@ class JobController extends Controller
         if ($search_by_id) {
             return view('jobs.edit', ['job' => $search_by_id]);
         } else {
-            return "No Job at nummer $job_id. It was deleted or wasn't created.";
+            return "Kein Job mit der Nummer $job_id. Er wurde gelöscht oder nicht erstellt.";
         }
     }
 
@@ -51,7 +51,7 @@ class JobController extends Controller
 
             return redirect()->route('home', ['project_id' => $project_id, 'task_id' => $task_id]); # change
         } else {
-            return "No job at nummer $job_id. There is nothing delete.";
+            return "Kein Job mit der Nummer $job_id. Er wurde gelöscht oder nicht erstellt.";
         }
     }
 }

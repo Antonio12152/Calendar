@@ -18,6 +18,13 @@ class TaskCreate extends Component
         'project_id' => 'required|integer',
     ];
 
+    protected $messages = [
+        'name.required' => 'Das Namefeld ist erforderlich.',
+        'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
+        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
+    ];
+
     public function mount($project_id = null)
     {
         if (!$project_id) return redirect()->route('home');

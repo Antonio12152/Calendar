@@ -2,18 +2,18 @@
     <thead class="text-xs text-black uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
         <tr>
             <th scope="col" class="px-4 py-3">{{__('Task')}} {{__('Name')}}</th>
-            <th scope="col" class="px-12 py-3">{{__('Task')}} {{__('Description')}}</th>
+            <th scope="col" class="px-64 py-3">{{__('Task')}} {{__('Description')}}</th>
             <th scope="col" class="px-2 py-3">{{__('Task')}} {{__('Action')}}</th>
         </tr>
     </thead>
     @foreach($tasks as $task)
-    <tbody x-data="{show_jobs:@json(in_array($task->id, Session::get('open_tasks',[])))}" x-on:mouseover="$wire.refreshTask()">
+    <tbody x-data="{show_jobs:@json(in_array($task->id, Session::get('open_tasks',[])))}" x-on:mousemove="$wire.refreshTask()">
         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
-            <th wire:click="toggleTask({{$task->id}})"> {{ $task->name }}</th>
+            <th wire:click="toggleTask({{$task->id}})" class="w-3xs py-3"> {{ $task->name }}</th>
 
-            <td class="overflow-hidden"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $task->description }}</a></td>
+            <td class="w-xl py-3"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $task->description }}</a></td>
 
-            <td>
+            <td class="w-3xs py-3">
                 <a class="text-green-600 dark:text-lime-400" href="{{ route('jobs.create', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{__('Add job')}}</a>
                 <a class="text-blue-600 dark:text-sky-400" href="{{ route('tasks.edit', ['project_id' => $task->project_id, 'task_id'=>$task->id]) }}">{{__('Edit')}}</a>
                 <form class="text-red-600 dark:text-rose-400" method="POST" action="{{ route('tasks.destroy', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">

@@ -24,7 +24,7 @@ class UserController extends Controller
         if ($user) {
             return view('users.show', ['user' => $user, 'jobs' => $user->job]);
         } else {
-            return "No user at nummer $id. It was deleted or wasn't created.";
+            return "Kein Benutzer mit der Nummer $id. Er wurde gelöscht oder nicht erstellt.";
         }
     }
 }

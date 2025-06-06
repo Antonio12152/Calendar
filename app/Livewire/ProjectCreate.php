@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Project;
 use Carbon\Carbon;
+use Illuminate\Contracts\Validation\Validator;
 use Livewire\Component;
 
 class ProjectCreate extends Component
@@ -20,6 +21,13 @@ class ProjectCreate extends Component
         'description' => 'required|min:10',
         'start' => 'required|date|after:current_time',
         'end' => 'required|date|after:start',
+    ];
+    
+    protected $messages = [
+        'name.required' => 'Das Namefeld ist erforderlich.',
+        'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
+        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
     ];
 
     public function mount()

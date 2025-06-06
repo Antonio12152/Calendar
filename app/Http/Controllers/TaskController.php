@@ -40,7 +40,7 @@ class TaskController extends Controller
             $jobs = Job::where('task_id', $task_id)->get();
             return view('tasks.show', compact('task', 'jobs')); # change
         } else {
-            return "No tasks at task nummer $task_id.";
+            return "Keine Aufgabe mit der Nummer $task_id.";
         }
     }
 
@@ -53,7 +53,7 @@ class TaskController extends Controller
         if ($search_by_id) {
             return view('tasks.edit', ['task' => $search_by_id]);
         } else {
-            return "No task at nummer $task_id. It was deleted or wasn't created.";
+            return "Keine Aufgabe mit der Nummer $task_id. Sie wurde gelöscht oder nicht erstellt.";
         }
     }
 
@@ -82,7 +82,7 @@ class TaskController extends Controller
 
             return redirect()->route('home', ['project_id' => $project_id]);
         } else {
-            return "No task at nummer $task_id. There is nothing delete.";
+            return "Keine Aufgabe mit der Nummer $task_id. Sie wurde gelöscht oder nicht erstellt.";
         }
     }
 }

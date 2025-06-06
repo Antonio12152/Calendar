@@ -5,6 +5,9 @@ namespace App\Livewire;
 use Livewire\Component;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Contracts\Database\Query\Builder;
+use Illuminate\Support\Facades\DB;
 
 class ProjectSearch extends Component
 {
@@ -12,6 +15,7 @@ class ProjectSearch extends Component
     public $selected = '';
     public $beforeToday = false;
     public $current = false;
+    public $openProjects = [];
 
     public function mount(Request $request, $selected = '')
     {
@@ -24,23 +28,24 @@ class ProjectSearch extends Component
         $request->session()->put('selected', $selected);
     }
 
-    public function toggleProject(Request $request, $project_id)
+    public function toggleProject($project_id)
     {
-        if (!$request->session()->has('open_projects')) {
-            $request->session()->put('open_projects', []);
+        if (!session()->has('open_projects')) {
+            session()->put('open_projects', []);
         }
-        if (in_array($project_id, $request->session()->get('open_projects', []))) {
-            $save = $request->session()->get('open_projects', []);
-            $request->session()->pull('open_projects', []);
-            $request->session()->put('open_projects', array_diff($save, [$project_id]));
+        if (in_array($project_id, session()->get('open_projects', []))) {
+            $save = session()->get('open_projects', []);
+            session()->pull('open_projects', []);
+            session()->put('open_projects', array_diff($save, [$project_id]));
         } else {
-            $request->session()->push('open_projects', $project_id);
+            session()->push('open_projects', $project_id);
         }
+        $this->dispatch('refresh_component');
     }
 
     public function refreshProject()
     {
-        $this->dispatch('$refresh');
+        //$this->dispatch('$refresh');
     }
 
     public function deleteSession(Request $request)
@@ -53,21 +58,32 @@ class ProjectSearch extends Component
     {
         $projects = null;
         if ($this->selected == 'after') {
-            $projects = Project::where('name', 'like', '%' . $this->search . '%')
-                ->whereDate('end', '<=', date('Y-m-d'))
-                ->orWhere('description', 'like', '%' . $this->search . '%')
-                ->orWhere('id', 'like', '%' . $this->search . '%')
+            $projects = DB::table('projects')
+                ->when($this->search, function (Builder $query, $search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('id', 'like', '%' . $search . '%');
+                })
+                ->whereDate('end', '>=', date('Y-m-d h:m:s'))
                 ->get();
         } else if ($this->selected == 'before') {
-            $projects = Project::where('name', 'like', '%' . $this->search . '%')
-                ->whereDate('start', '<=', date('Y-m-d'))
-                ->orWhere('description', 'like', '%' . $this->search . '%')
-                ->orWhere('id', 'like', '%' . $this->search . '%')
+            $projects = DB::table('projects')
+                ->when($this->search, function (Builder $query, $search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('id', 'like', '%' . $search . '%');
+                })
+                ->whereDate('start', '<=', date('Y-m-d h:m:s'))
                 ->get();
         } else if ($this->selected == 'current') {
-            $projects = Project::where('name', 'like', '%' . $this->search . '%')
-                ->orWhere('description', 'like', '%' . $this->search . '%')
-                ->orWhere('id', 'like', '%' . $this->search . '%')
+            $projects = DB::table('projects')
+                ->when($this->search, function (Builder $query, $search) {
+                    $query->where('name', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('id', 'like', '%' . $search . '%');
+                })
+                ->whereDate('start', '<=', date('Y-m-d h:m:s'))
+                ->whereDate('end', '>=', date('Y-m-d h:m:s'))
                 ->get();
         } else {
             $projects = Project::where('name', 'like', '%' . $this->search . '%')

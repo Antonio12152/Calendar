@@ -24,7 +24,7 @@ class ProjectController extends Controller
         if ($search_by_id) {
             return view('projects.edit', ['project' => $search_by_id]);
         } else {
-            return "No project at nummer $project_id. It was deleted or wasn't created.";
+            return "Kein Projekt bei Nummer $project_id. Es wurde gelöscht oder nicht erstellt.";
         }
     }
 
@@ -35,7 +35,7 @@ class ProjectController extends Controller
             $tasks = Task::where('project_id', $project_id)->get();
             return view('projects.show', ['project' => $search_by_id, 'tasks' => $tasks]); #change
         } else {
-            return "No project at nummer $project_id. It was deleted or wasn't created.";
+            return "Kein Projekt bei Nummer $project_id. Es wurde gelöscht oder nicht erstellt.";
         }
     }
 
@@ -59,7 +59,7 @@ class ProjectController extends Controller
 
             return redirect()->route('home');
         } else {
-            return "No project at nummer $project_id. There is nothing delete.";
+            return "Kein Projekt bei Nummer $project_id. Es wurde gelöscht oder nicht erstellt.";
         }
     }
 }
