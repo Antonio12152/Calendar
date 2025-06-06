@@ -1,50 +1,64 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Tasks Show') }}
-        </h2>
-    </x-slot>
-
     <section class="w-full bg-white p-6 shadow-md rounded-lg">
-        <div>
-            <a href="{{ route('tasks.edit', ['project_id' => $task->project_id, 'task_id'=>$task->id]) }}">Edit Task</a>
-            <form method="POST" action="{{ route('tasks.destroy', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">
-                @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure?')">Delete Task</button>
-            </form>
-        </div>
-        <div class="">
-            <br />
-            {{ $task->id }}
-            <br />
-            {{ $task->name }}
-            <br />
-            {{ $task->description }}
-        </div>
-        <div class="">
-            <label for="Jobs">Jobs:</label>
-            <a href="{{ route('jobs.create', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">Add job</a>
-            <br />
-            @foreach($jobs as $job)
-            <div class="">
-                {{ $job->id }}
-                <br />
-                {{ $job->description }}
-                <br />
-                <div>
-                    @livewire('job-assign',['job_id'=>$job->id])
-                    <br />
-                    <a href="{{ route('jobs.edit', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">Edit Job</a>
-                    <form method="POST" action="{{ route('jobs.destroy', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" onclick="return confirm('Are you sure?')">Delete Job</button>
-                    </form>
+        <section class="py-24 relative">
+            <div class="w-full max-w-7xl px-4 md:px-5 lg:px-5 mx-auto">
+                <div class="w-full flex-col justify-start items-start lg:gap-14 gap-7 inline-flex">
+                    <div
+                        class="w-full lg:p-8 p-5 bg-white rounded-3xl border border-gray-200 flex-col justify-start items-start flex">
+                        <div class="w-full flex-col justify-start items-start gap-3.5 flex">
+                            <div class="w-full justify-between items-center inline-flex">
+                                <div class="justify-start items-center gap-2.5 flex">
+                                    <div class="flex-col justify-start items-start gap-1 inline-flex">
+                                        <h5 class="text-gray-900 font-semibold leading-snug">{{ $task->name }}</h5>
+                                    </div>
+                                </div>
+                                <div class="justify-end">
+                                    <a href="{{ route('tasks.edit', ['project_id' => $task->project_id, 'task_id'=>$task->id]) }}">{{__('Edit')}}</a>
+                                    <form method="POST" action="{{ route('tasks.destroy', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <p class="text-gray-800 font-normal leading-snug">{{ $task->description }}</p>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="Jobs">{{__('Job')}}:</label>
+                        <br />
+                        <a href="{{ route('jobs.create', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{__('Add job')}}</a>
+                    </div>
+
+                    @foreach($jobs as $job)
+                    <div class="w-full flex-col justify-start items-start gap-8 flex">
+                        <div
+                            class="w-full lg:p-8 p-5 bg-white rounded-3xl border border-gray-200 flex-col justify-start items-start flex">
+                            <div class="w-full flex-col justify-start items-start gap-3.5 flex">
+                                <div class="text-sm">
+                                    <h5>{{__('Start')}}</h5>
+                                    <p>{{ $job->start }}</p>
+                                    <h5>{{__('End')}}</h5>
+                                    <p>{{ $job->end }}</p>
+                                </div>
+                                <p class="text-gray-800 text-m font-normal leading-snug">{{ $job->description }}</p>
+                                <div>
+                                    @livewire('job-assign',['job_id'=>$job->id])
+                                    <a href="{{ route('jobs.edit', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">{{__('Edit')}}</a>
+                                    <form method="POST" action="{{ route('jobs.destroy', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
                 </div>
             </div>
-            <br />
-            @endforeach
-        </div>
+        </section>
     </section>
 </x-app-layout>

@@ -4,7 +4,7 @@
             <input
                 wire:model.live.debounce.300ms="search"
                 type="text"
-                placeholder="Search users..."
+                placeholder="{{__('Search users')}}..."
                 class="focus:ring-blue-500 w-full rounded-lg border px-4 py-2 focus:outline-none focus:ring-2" />
         </div>
     </div>

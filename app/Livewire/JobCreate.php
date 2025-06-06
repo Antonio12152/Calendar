@@ -4,6 +4,7 @@ namespace App\Livewire;
 
 use App\Models\Job;
 use Livewire\Component;
+use Carbon\Carbon;
 
 class JobCreate extends Component
 {
@@ -13,18 +14,20 @@ class JobCreate extends Component
     public $job = null;
     public $start = null;
     public $end = null;
+    public $current_time = null;
 
     protected $rules = [
         'description' => 'required|min:10',
         'project_id' => 'required|integer',
         'task_id' => 'required|integer',
-        'start' => 'required|date',
-        'end' => 'required|date'
+        'start' => 'required|date|after:current_time',
+        'end' => 'required|date|after:start'
     ];
 
     public function mount($project_id = null, $task_id = null)
     {
         if (!$project_id || !$task_id)  return redirect()->route('home');
+        $this->current_time = Carbon::now();
         $this->project_id = $project_id;
         $this->task_id = $task_id;
     }

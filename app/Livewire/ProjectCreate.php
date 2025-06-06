@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\Project;
+use Carbon\Carbon;
 use Livewire\Component;
 
 class ProjectCreate extends Component
@@ -12,24 +13,19 @@ class ProjectCreate extends Component
     public $project = null;
     public $start = null;
     public $end = null;
+    public $current_time = null;
 
     protected $rules = [
         'name' => 'required|min:4',
         'description' => 'required|min:10',
-        'start' =>'required|date',
-        'end' =>'required|date',
+        'start' => 'required|date|after:current_time',
+        'end' => 'required|date|after:start',
     ];
 
-    // public function mount($project = null)
-    // {
-    //     if ($project) {
-    //         $this->project = $project;
-    //         $this->project->name = $project->name;
-    //         $this->project->description = $project->description;
-    //         $this->project->start =  $project->start;
-    //         $this->project->end = $project->end;
-    //     }
-    // }
+    public function mount()
+    {
+        $this->current_time = Carbon::now();
+    }
 
     public function save()
     {

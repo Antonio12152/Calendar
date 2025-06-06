@@ -10,7 +10,9 @@ class Project extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'description', 'start', 'end'];
-    public function tasks(): HasMany
+    protected $primaryKey = 'id';
+
+    public function task(): HasMany #change
     {
         return $this->hasMany(Task::class);
     }

@@ -11,33 +11,35 @@ use Illuminate\Http\Request;
 class TaskShow extends Component
 {
     public $tasks = null;
-    public $open_tasks = [];
 
     public function mount($project_id)
     {
         $this->tasks = Task::where('project_id', $project_id)->get();
-        if (Session::get('open_tasks') != null) {
-            $this->open_tasks = Session::get('open_tasks', []);
-        }
     }
 
-    public function toggleTask(Request $request, $tasks_id)
+    public function toggleTask(Request $request, $task_id)
     {
-        if (in_array($tasks_id, Session::get('open_tasks', []))) {
-            $save = Session::get('open_tasks', []);
-            Session::pull('open_tasks');
-            Session::put('open_tasks', array_diff($save, [$tasks_id]));
-        } else {
-            Session::push('open_tasks', [$tasks_id] = $tasks_id);
+        if (!$request->session()->has('open_tasks')) {
+             $request->session()->put('open_tasks', []);
         }
+        if (in_array($task_id, $request->session()->get('open_tasks', []))) {
+            $save = $request->session()->get('open_tasks', []);
+            $request->session()->pull('open_tasks', []);
+            $request->session()->put('open_tasks', array_diff($save, [$task_id]));
+        } else {
+            $request->session()->push('open_tasks', $task_id);
+        }
+
+        $this->refreshTask();
+    }
+
+    public function refreshTask()
+    {
+        $this->dispatch('$refresh');
     }
 
     public function render()
     {
-        if (Session::get('open_tasks') == null) {
-            Session::put('open_tasks', []);
-        }
-
         return view('livewire.task-show', ['tasks' => $this->tasks]);
     }
 }

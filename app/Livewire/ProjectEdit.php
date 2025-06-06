@@ -19,7 +19,7 @@ class ProjectEdit extends Component
         'name' => 'required|min:4',
         'description' => 'required|min:10',
         'start' => 'required|date',
-        'end' => 'required|date',
+        'end' => 'required|date|after:start',
     ];
 
     public function mount($project = null)

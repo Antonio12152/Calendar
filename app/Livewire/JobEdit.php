@@ -18,7 +18,7 @@ class JobEdit extends Component
         'project_id' => 'required|integer',
         'task_id' => 'required|integer',
         'start' => 'required|date',
-        'end' => 'required|date'
+        'end' => 'required|date|after:start'
     ];
 
     public function mount($job = null)
