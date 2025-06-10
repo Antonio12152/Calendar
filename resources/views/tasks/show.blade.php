@@ -25,12 +25,13 @@
                         </div>
                     </div>
 
-
                     <div>
                         <label for="Jobs">{{__('Job')}}:</label>
                         <br />
                         <a href="{{ route('jobs.create', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{__('Add job')}}</a>
                     </div>
+
+                    <div id="calendar"></div>
 
                     @foreach($jobs as $job)
                     <div class="w-full flex-col justify-start items-start gap-8 flex">
@@ -43,7 +44,7 @@
                                     <h5>{{__('End')}}</h5>
                                     <p>{{ $job->end }}</p>
                                 </div>
-                                <p class="text-gray-800 text-m font-normal leading-snug">{{ $job->description }}</p>
+                                <p class="break-all text-gray-800 text-m font-normal leading-snug">{{ $job->description }}</p>
                                 <div>
                                     @livewire('job-assign',['job_id'=>$job->id])
                                     <a href="{{ route('jobs.edit', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">{{__('Edit')}}</a>
@@ -61,4 +62,29 @@
             </div>
         </section>
     </section>
+
+
+    @push('scripts')
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/core/locales/de"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                locale: 'de',
+                events: @json($jobs),
+                height: 700
+            });
+            calendar.render();
+        });
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    @endpush
 </x-app-layout>

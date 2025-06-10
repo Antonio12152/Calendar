@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
         return view('home', ['projects' => $projects]);
     })->name('home');
 
+    Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
     Route::get('projects/create', [ProjectController::class, 'create'])->name('projects.create')->middleware(IsAdminMiddleware::class);
     Route::get('projects/{project_id}', [ProjectController::class, 'show'])->name('projects.show');
     Route::get('projects/{project_id}/edit', [ProjectController::class, 'edit'])->name('projects.edit')->middleware(IsAdminMiddleware::class);

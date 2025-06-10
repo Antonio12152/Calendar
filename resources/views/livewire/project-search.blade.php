@@ -41,8 +41,8 @@
             <tbody wire:key="project-{{$project->id}}" x-data="{show_tasks: @json(in_array($project->id, Session::get('open_projects',[])))}" @refresh_component.window="$wire.call('$refresh')">
                 <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
                     <th wire:click="toggleProject({{$project->id}})" class="w-3xs py-3">{{ $project->name }}</th>
-                    <td class="w-xl py-3"><a href="{{ route('projects.show', ['project_id' => $project->id]) }}">{{ $project->description }}</a></td>
-                    <td class="w-3xs py-3">
+                    <td class="w-xl break-all py-3"><a href="{{ route('projects.show', ['project_id' => $project->id]) }}">{{ $project->description }}</a></td>
+                    <td class="w-20 py-3">
                         <a class="text-green-600 dark:text-lime-400" href="{{ route('tasks.create', ['project_id' => $project->id]) }}">{{__('Add task')}}</a>
                         <a class="text-blue-600 dark:text-sky-400" href="{{ route('projects.edit', ['project_id' => $project->id]) }}">{{__('Edit')}}</a>
                         <form class="text-red-600 dark:text-rose-400" method="POST" action="{{ route('projects.destroy', ['project_id' => $project->id]) }}">

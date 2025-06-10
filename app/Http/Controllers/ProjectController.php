@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Job;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -10,8 +11,27 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = Project::table('projects')->get();
-        return view('home', compact('projects'));
+        $projects = [];
+
+        $time = Project::with(['job'])->get();
+        foreach ($time as $t) {
+            $projects[] = [
+                'id' => $t->id,
+                'title' => $t->name,
+                'start' => $t->start,
+                'end' => $t->end,
+                'url'=> 'projects/',
+            ];
+            // foreach ($t->job as $j) {
+            //     $projects->jobs[] = [
+            //         'id_job' => $j->start,
+            //         'start_job' => $j->start,
+            //         'end_job' => $j->end
+            //     ];
+            // }
+        }
+
+        return view('projects.index', compact('projects'));
     }
     public function create()
     {

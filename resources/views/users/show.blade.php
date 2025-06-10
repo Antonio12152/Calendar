@@ -14,7 +14,7 @@
                     <br/>
                     <a class="text-xl text-gray-900 dark:text-white" href="{{ route('tasks.show', ['project_id' => $job->project->id, 'task_id' => $job->task->id]) }}">{{$job->task->name}}</a>
                     <br/>
-                    <a href="{{ route('tasks.show', ['project_id' => $job->project->id, 'task_id' => $job->task->id]) }}">{{$job->description}}</a>
+                    <a class="break-all" href="{{ route('tasks.show', ['project_id' => $job->project->id, 'task_id' => $job->task->id]) }}">{{$job->description}}</a>
                 </div>
             </div>
             @endforeach

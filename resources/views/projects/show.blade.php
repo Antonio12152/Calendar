@@ -27,7 +27,7 @@
                                 <h5>{{__('End')}}</h5>
                                 <p>{{ $project->end }}</p>
                             </div>
-                            <p class="text-dark font-normal leading-snug">{{ $project->description }}</p>
+                            <p class="text-dark font-normal leading-snug break-all">{{ $project->description }}</p>
                         </div>
                     </div>
                     <div>
@@ -57,7 +57,7 @@
                                         </form>
                                     </div>
                                 </div>
-                                <p class="text-gray-800 font-normal leading-snug"><a href="{{ route('tasks.show', ['task_id' => $task->id,'project_id' => $project->id]) }}">{{ $task->description }}</a></p>
+                                <p class="text-gray-800 font-normal leading-snug break-all"><a href="{{ route('tasks.show', ['task_id' => $task->id,'project_id' => $project->id]) }}">{{ $task->description }}</a></p>
                             </div>
                         </div>
                     </div>

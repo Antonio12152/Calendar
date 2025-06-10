@@ -11,9 +11,9 @@
         <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
             <th wire:click="toggleTask({{$task->id}})" class="w-3xs py-3"> {{ $task->name }}</th>
 
-            <td class="w-xl py-3"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $task->description }}</a></td>
+            <td class="w-xl py-3 break-all"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $task->description }}</a></td>
 
-            <td class="w-3xs py-3">
+            <td class="w-20 py-3">
                 <a class="text-green-600 dark:text-lime-400" href="{{ route('jobs.create', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{__('Add job')}}</a>
                 <a class="text-blue-600 dark:text-sky-400" href="{{ route('tasks.edit', ['project_id' => $task->project_id, 'task_id'=>$task->id]) }}">{{__('Edit')}}</a>
                 <form class="text-red-600 dark:text-rose-400" method="POST" action="{{ route('tasks.destroy', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">
@@ -25,7 +25,6 @@
         </tr>
         <tr x-bind:class="!show_jobs ? 'hidden' : ''">
             <td class="w-full" colspan="3">
-                @foreach($task->job as $job)
                 <table class="w-full text-sm text-left rtl:text-right text-black dark:text-gray-400">
                     <thead class="text-xs text-black uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-500">
                         <tr>
@@ -33,10 +32,12 @@
                             <th scope="col" class="px-2 py-3">{{__('Job')}} {{__('Action')}}</th>
                         </tr>
                     </thead>
+                    @foreach($task->job as $job)
+
                     <tbody>
                         <tr>
-                            <td class="overflow-hidden"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $job->description }}</a></td>
-                            <td>
+                            <td class="overflow-hidden break-all"><a href="{{ route('tasks.show', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">{{ $job->description }}</a></td>
+                            <td class="w-20">
                                 @livewire('job-assign', ['job_id'=>$job->id], key($job->id))
                                 <a class="text-blue-600 dark:text-sky-400" href="{{ route('jobs.edit', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">{{__('Edit')}}</a>
                                 <form class="text-red-600 dark:text-rose-400" method="POST" action="{{ route('jobs.destroy', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">
@@ -46,9 +47,9 @@
                                 </form>
                             </td>
                         </tr>
+                        @endforeach
                     </tbody>
                 </table>
-                @endforeach
             </td>
         </tr>
     </tbody>
