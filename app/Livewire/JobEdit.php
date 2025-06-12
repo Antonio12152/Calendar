@@ -13,21 +13,21 @@ class JobEdit extends Component
     public $job = null;
     public $start = null;
     public $end = null;
-    public $current_time = null;
 
     protected $rules = [
         'description' => 'required|min:10',
         'project_id' => 'required|integer',
         'task_id' => 'required|integer',
-        'start' => 'required|date:current_time',
-        'end' => 'required|date|after:start'
+        'start' => 'required|date|after_or_equal:project_start',
+        'end' => 'required|date|after:start|before_or_equal:project_end'
     ];
 
     protected $messages = [
         'name.required' => 'Das Namefeld ist erforderlich.',
         'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
-        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
-        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
+        'start.after_or_equal' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
+        'end.before_or_equal' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
     ];
 
     public function mount($job = null)
@@ -41,7 +41,6 @@ class JobEdit extends Component
             $this->start = $job->start;
             $this->end = $job->end;
         }
-        $this->current_time = Carbon::now();
     }
 
     public function save()

@@ -3,7 +3,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">
                     <ul>
                         @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>

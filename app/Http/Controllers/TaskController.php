@@ -35,9 +35,17 @@ class TaskController extends Controller
      */
     public function show($project_id, $task_id)
     {
+        $colors = ['blue', 'green', 'navy', 'indigo', 'dodgerblue', 'mediumorchid', 'lightslategray', 'teal'];
         $task = Task::where('id', $task_id)->first();
         if ($task) {
             $jobs = Job::where('task_id', $task_id)->get();
+            $jobs->map(function ($job) use ($colors) {
+
+                $job['color'] = $colors[$job->id % count($colors)];
+
+                return $job;
+            });
+            
             return view('tasks.show', compact('task', 'jobs')); # change
         } else {
             return "Keine Aufgabe mit der Nummer $task_id.";

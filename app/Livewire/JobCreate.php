@@ -4,33 +4,37 @@ namespace App\Livewire;
 
 use App\Models\Job;
 use App\Models\Project;
+use App\Models\Task;
 use Livewire\Component;
 use Carbon\Carbon;
 
 class JobCreate extends Component
 {
     public $description = '';
-    public $project_id = null;
-    public $task_id = null;
+
     public $job = null;
     public $start = null;
     public $end = null;
-    public $current_time = null;
     public $project_start = null;
     public $project_end = null;
+
+
+    public $project_id = '';
+    public $task_id = '';
+    public $projects = null;
+    public $tasks = null;
 
     protected $rules = [
         'description' => 'required|min:10',
         'project_id' => 'required|integer',
         'task_id' => 'required|integer',
-        'start' => 'required|date|after:current_time|after_or_equal:project_start',
+        'start' => 'required|date|after_or_equal:project_start',
         'end' => 'required|date|after:start|before_or_equal:project_end'
     ];
 
     protected $messages = [
-        'name.min' => 'Das Namefeld ist erforderlich.',
-        'description.min' => 'Das Beschreibungsfeld ist erforderlich.',
-        'start.after' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
+        'name.required' => 'Das Namefeld ist erforderlich.',
+        'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
         'start.after_or_equal' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
         'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
         'end.before_or_equal' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
@@ -38,13 +42,22 @@ class JobCreate extends Component
 
     public function mount($project_id = null, $task_id = null)
     {
-        if (!$project_id || !$task_id)  return redirect()->route('home');
-        $this->current_time = Carbon::now();
-        $this->project_id = $project_id;
-        $this->task_id = $task_id;
-        $project = Project::where('id', $project_id)->first();
-        $this->project_start = $project->start;
-        $this->project_end = $project->end;
+        // if (!$project_id || !$task_id)  return redirect()->route('home'); https://www.youtube.com/watch?v=JXtZdnUv7IE
+
+        $this->projects = Project::all();
+
+        if ($this->project_id != '') {
+            $this->tasks = Task::where('project_id', $this->project_id)->get();
+        } else {
+            $this->tasks = [];
+        }
+        if ($project_id && $task_id) {
+            $this->project_id = $project_id;
+            $this->task_id = $task_id;
+            $project = Project::where('id', $project_id)->first();
+            $this->project_start = $project->start;
+            $this->project_end = $project->end;
+        }
     }
 
     public function save()
@@ -65,6 +78,6 @@ class JobCreate extends Component
     }
     public function render()
     {
-        return view('livewire.job-create');
+        return view('livewire.job-create', ['projects' => $this->projects]);
     }
 }

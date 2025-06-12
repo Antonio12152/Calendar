@@ -3,7 +3,7 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 @if ($errors->any())
-                <div class="alert alert-danger">
+                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
                     <ul>
                         @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -14,6 +14,21 @@
                 <form method="POST" wire:submit.prevent="save">
                     @csrf
                     <div>
+                        <div>
+                            <label for="project">{{__('Projects')}}:</label>
+                        </div>
+                        <select class="p-1 w-56" name="project_select" id="project_select" form="project_select" wire:model="project_id">
+                            <option value="" >Select</option>
+                            @foreach ($projects as $project)
+                            <option value="{{ $project->id }}" @selected($project->id == $project_id)>{{ $project->name }}</option>
+                            @endforeach
+                        </select>
+                        <div>
+                            <label for="task">{{__('Tasks')}}:</label>
+                        </div>
+                        <select class="p-1 w-56" name="task" id="task" form="task">
+                            <option value="">{{__('All Projects')}}</option>
+                        </select>
                         <div>
                             <label for="description">{{__('Description')}}:</label>
                         </div>

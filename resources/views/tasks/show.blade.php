@@ -21,7 +21,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <p class="text-gray-800 font-normal leading-snug">{{ $task->description }}</p>
+                            <p class="break-all text-gray-800 font-normal leading-snug">{{ $task->description }}</p>
                         </div>
                     </div>
 
@@ -65,8 +65,9 @@
 
 
     @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/core/locales/de"></script>
+    <script src="{{ Vite::asset('resources/js/fullcalendarCore.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/popper.js') }}"></script>
+    <script src="{{ Vite::asset('resources/js/tippy.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             var calendarEl = document.getElementById('calendar');
@@ -76,15 +77,40 @@
                     center: 'title',
                     right: 'dayGridMonth,timeGridWeek,timeGridDay'
                 },
+                firstDay: 1,
                 locale: 'de',
                 events: @json($jobs),
-                height: 700
+                height: 'auto',
+                displayEventEnd: true,
+                eventTimeFormat: {
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    meridiem: false
+                },
+                eventDidMount: function(info) {
+                    const jobs = @json($jobs);
+                    if (!jobs || jobs.length == 0) return;
+                    const data = jobs.map(job => {
+                        return `<div>
+                                    <p class="break-all">${job.description}</p>
+                                </div>`;
+                    }).join('');
+
+                    tippy(info.el, {
+                        content: data,
+                        allowHTML: true,
+                        flipBehavior: "flip",
+                        interactive: true,
+                        delay: [0, 200],
+                        hideOnClick: false
+                    })
+                }
             });
             calendar.render();
         });
     </script>
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/core/main.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid/main.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid/main.css" rel="stylesheet" />
+    <link href="{{ Vite::asset('resources/css/fullcalendarCore.css') }}" rel="stylesheet" />
+    <link href="{{ Vite::asset('resources/css/fullcalendarDaygrid.css') }}" rel="stylesheet" />
+    <link href="{{ Vite::asset('resources/css/fullcalendarTimegrid.css') }}" rel="stylesheet" />
     @endpush
 </x-app-layout>

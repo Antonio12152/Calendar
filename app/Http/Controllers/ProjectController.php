@@ -13,23 +13,28 @@ class ProjectController extends Controller
     {
         $projects = [];
 
-        $time = Project::with(['job'])->get();
-        foreach ($time as $t) {
-            $projects[] = [
-                'id' => $t->id,
-                'title' => $t->name,
-                'start' => $t->start,
-                'end' => $t->end,
-                'url'=> 'projects/',
+        $pro = Project::with(['task'])->get();
+        $colors = ['blue', 'green', 'navy', 'indigo', 'dodgerblue', 'mediumorchid', 'lightslategray', 'teal'];
+        $projects = $pro->map(function ($p) use ($colors) {
+            return [
+                'id' => $p->id,
+                'title' => $p->name,
+                'start' => $p->start,
+                'end' => $p->end,
+                'color' => $colors[$p->id % count($colors)],
+                'extendedProps' => [
+                    'title' => $p->name,
+                    'tasks' =>
+                    $p->task ? $p->task->map(function ($t) {
+                        return [
+                            'id' => $t->id,
+                            'title' => $t->name,
+                            'description' => $t->description,
+                        ];
+                    }) : []
+                ]
             ];
-            // foreach ($t->job as $j) {
-            //     $projects->jobs[] = [
-            //         'id_job' => $j->start,
-            //         'start_job' => $j->start,
-            //         'end_job' => $j->end
-            //     ];
-            // }
-        }
+        });
 
         return view('projects.index', compact('projects'));
     }
