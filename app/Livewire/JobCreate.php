@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Models\Task;
 use Livewire\Component;
 use Carbon\Carbon;
+use Illuminate\Http\Client\Request;
 
 class JobCreate extends Component
 {
@@ -15,13 +16,13 @@ class JobCreate extends Component
     public $job = null;
     public $start = null;
     public $end = null;
+
     public $project_start = null;
     public $project_end = null;
 
 
     public $project_id = '';
     public $task_id = '';
-    public $projects = null;
     public $tasks = null;
 
     protected $rules = [
@@ -36,18 +37,31 @@ class JobCreate extends Component
         'name.required' => 'Das Namefeld ist erforderlich.',
         'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
         'start.after_or_equal' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
-        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
-        'end.before_or_equal' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
+        'end.before_or_equal' => 'Das Endefeld muss ein Datum vor dem Projektenddatum sein.',
     ];
-
+    public function updateproject_id($project_id = null)
+    {
+        $this->project_id = $project_id;
+        if ($this->project_id) {
+            $this->tasks = Task::where('project_id', $this->project_id)->get();
+            $this->task_id = null;
+            $project = Project::where('id', $project_id)->first();
+            $this->project_start = $project->start;
+            $this->project_end = $project->end;
+        } else {
+            $this->tasks = [];
+        }
+    }
     public function mount($project_id = null, $task_id = null)
     {
         // if (!$project_id || !$task_id)  return redirect()->route('home'); https://www.youtube.com/watch?v=JXtZdnUv7IE
 
-        $this->projects = Project::all();
-
-        if ($this->project_id != '') {
+        $this->project_id = $project_id;
+        $this->task_id = $task_id;
+        if ($this->project_id) {
             $this->tasks = Task::where('project_id', $this->project_id)->get();
+            $this->task_id = null;
         } else {
             $this->tasks = [];
         }
@@ -78,6 +92,7 @@ class JobCreate extends Component
     }
     public function render()
     {
-        return view('livewire.job-create', ['projects' => $this->projects]);
+        $projects = Project::all();
+        return view('livewire.job-create', ['projects' => $projects]);
     }
 }

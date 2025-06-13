@@ -15,19 +15,22 @@
                     @csrf
                     <div>
                         <div>
-                            <label for="project">{{__('Projects')}}:</label>
+                            <label for="project_id">{{__('Projects')}}:</label>
                         </div>
-                        <select class="p-1 w-56" name="project_select" id="project_select" form="project_select" wire:model="project_id">
-                            <option value="" >Select</option>
+                        <select class="p-1 w-56" name="project_id" id="project_id" form="project_id" wire:model="project_id" wire:change="updateproject_id($event.target.value)">
+                            <option value="">{{__('Select')}}</option>
                             @foreach ($projects as $project)
-                            <option value="{{ $project->id }}" @selected($project->id == $project_id)>{{ $project->name }}</option>
+                            <option value="{{ $project->id }}">{{ $project->name }}</option>
                             @endforeach
                         </select>
                         <div>
-                            <label for="task">{{__('Tasks')}}:</label>
+                            <label for="task_id">{{__('Tasks')}}:</label>
                         </div>
-                        <select class="p-1 w-56" name="task" id="task" form="task">
-                            <option value="">{{__('All Projects')}}</option>
+                        <select class="p-1 w-56" name="task_id" id="task_id" form="task_id" wire:model="task_id">
+                            <option value="">{{__('Select')}}</option>
+                            @foreach ($this->tasks as $task)
+                            <option value="{{ $task->id }}" >{{ $task->name }}</option>
+                            @endforeach
                         </select>
                         <div>
                             <label for="description">{{__('Description')}}:</label>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Job;
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -36,8 +37,9 @@ class TaskController extends Controller
     public function show($project_id, $task_id)
     {
         $colors = ['blue', 'green', 'navy', 'indigo', 'dodgerblue', 'mediumorchid', 'lightslategray', 'teal'];
+        $project = Project::where('id', $project_id)->first();
         $task = Task::where('id', $task_id)->first();
-        if ($task) {
+        if ($project && $task) {
             $jobs = Job::where('task_id', $task_id)->get();
             $jobs->map(function ($job) use ($colors) {
 
@@ -45,8 +47,8 @@ class TaskController extends Controller
 
                 return $job;
             });
-            
-            return view('tasks.show', compact('task', 'jobs')); # change
+
+            return view('tasks.show', compact('project','task', 'jobs')); # change
         } else {
             return "Keine Aufgabe mit der Nummer $task_id.";
         }

@@ -26,8 +26,8 @@ class JobEdit extends Component
         'name.required' => 'Das Namefeld ist erforderlich.',
         'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
         'start.after_or_equal' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
-        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
-        'end.before_or_equal' => 'Das Endefeld muss ein Datum nach dem Startfeld und vor dem Projektenddatum sein.',
+        'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',
+        'end.before_or_equal' => 'Das Endefeld muss ein Datum vor dem Projektenddatum sein.',
     ];
 
     public function mount($job = null)

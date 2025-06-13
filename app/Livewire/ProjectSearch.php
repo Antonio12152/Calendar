@@ -43,11 +43,6 @@ class ProjectSearch extends Component
         $this->dispatch('refresh_component');
     }
 
-    public function refreshProject()
-    {
-        //$this->dispatch('$refresh');
-    }
-
     public function deleteSession(Request $request)
     {
         $request->session()->put('open_projects', []);

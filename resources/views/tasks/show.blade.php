@@ -9,6 +9,35 @@
                             <div class="w-full justify-between items-center inline-flex">
                                 <div class="justify-start items-center gap-2.5 flex">
                                     <div class="flex-col justify-start items-start gap-1 inline-flex">
+                                        <h5 class="text-dark font-semibold leading-snug">{{ $project->name }}</h5>
+                                    </div>
+                                </div>
+                                <div class="justify-end">
+                                    <a href="{{ route('projects.edit', ['project_id' => $project->id]) }}">{{__('Edit')}}</a>
+                                    <form method="POST" action="{{ route('projects.destroy', ['project_id' => $project->id]) }}">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div>
+                                <h5>{{__('Start')}}</h5>
+                                <p>{{ $project->start }}</p>
+                                <h5>{{__('End')}}</h5>
+                                <p>{{ $project->end }}</p>
+                            </div>
+                            <p class="text-dark font-normal leading-snug break-all">{{ $project->description }}</p>
+                        </div>
+                    </div>
+
+
+                    <div
+                        class="w-full lg:p-8 p-5 bg-white rounded-3xl border border-gray-200 flex-col justify-start items-start flex">
+                        <div class="w-full flex-col justify-start items-start gap-3.5 flex">
+                            <div class="w-full justify-between items-center inline-flex">
+                                <div class="justify-start items-center gap-2.5 flex">
+                                    <div class="flex-col justify-start items-start gap-1 inline-flex">
                                         <h5 class="text-gray-900 font-semibold leading-snug">{{ $task->name }}</h5>
                                     </div>
                                 </div>

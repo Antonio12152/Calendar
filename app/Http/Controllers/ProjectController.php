@@ -11,32 +11,7 @@ class ProjectController extends Controller
 {
     public function index()
     {
-        $projects = [];
-
-        $pro = Project::with(['task'])->get();
-        $colors = ['blue', 'green', 'navy', 'indigo', 'dodgerblue', 'mediumorchid', 'lightslategray', 'teal'];
-        $projects = $pro->map(function ($p) use ($colors) {
-            return [
-                'id' => $p->id,
-                'title' => $p->name,
-                'start' => $p->start,
-                'end' => $p->end,
-                'color' => $colors[$p->id % count($colors)],
-                'extendedProps' => [
-                    'title' => $p->name,
-                    'tasks' =>
-                    $p->task ? $p->task->map(function ($t) {
-                        return [
-                            'id' => $t->id,
-                            'title' => $t->name,
-                            'description' => $t->description,
-                        ];
-                    }) : []
-                ]
-            ];
-        });
-
-        return view('projects.index', compact('projects'));
+        return view('projects.index');
     }
     public function create()
     {

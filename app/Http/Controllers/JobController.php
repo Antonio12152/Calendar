@@ -23,10 +23,12 @@ class JobController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. $project_id = null, $task_id = null change
      */
-    public function create($project_id = null, $task_id = null)
+    public function create(Request $request)
     {
+        $project_id = $request->query('project_id');
+        $task_id = $request->query('task_id');
         return view('jobs.create', ['project_id' => $project_id, 'task_id' => $task_id]);
     }
 
