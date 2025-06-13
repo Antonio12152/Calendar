@@ -18,9 +18,11 @@
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                         {{ __('Calendar') }}
                     </x-nav-link>
+                    @if(Auth::user()->is_admin !== 0)
                     <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                         {{ __('Users') }}
                     </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -83,9 +85,11 @@
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                 {{ __('Calendar') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->is_admin !== 0)
             <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.index')">
                 {{ __('Users') }}
             </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -117,4 +121,6 @@
             </div>
         </div>
     </div>
+    {{--alpine stuff, if duplicate delete--}}
+    @livewireScripts
 </nav>

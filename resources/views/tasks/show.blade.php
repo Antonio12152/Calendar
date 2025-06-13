@@ -13,12 +13,14 @@
                                     </div>
                                 </div>
                                 <div class="justify-end">
+                                    @if(Auth::user()->is_admin !== 0)
                                     <a href="{{ route('projects.edit', ['project_id' => $project->id]) }}">{{__('Edit')}}</a>
                                     <form method="POST" action="{{ route('projects.destroy', ['project_id' => $project->id]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -42,12 +44,14 @@
                                     </div>
                                 </div>
                                 <div class="justify-end">
+                                    @if(Auth::user()->is_admin !== 0)
                                     <a href="{{ route('tasks.edit', ['project_id' => $task->project_id, 'task_id'=>$task->id]) }}">{{__('Edit')}}</a>
                                     <form method="POST" action="{{ route('tasks.destroy', ['project_id' => $task->project_id, 'task_id' => $task->id]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                             <p class="break-all text-gray-800 font-normal leading-snug">{{ $task->description }}</p>
@@ -77,11 +81,13 @@
                                 <div>
                                     @livewire('job-assign',['job_id'=>$job->id])
                                     <a href="{{ route('jobs.edit', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">{{__('Edit')}}</a>
+                                    @if(Auth::user()->is_admin !== 0)
                                     <form method="POST" action="{{ route('jobs.destroy', ['project_id' =>$job->project_id, 'task_id' => $job->task_id,  'job_id' => $job->id]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -91,7 +97,6 @@
             </div>
         </section>
     </section>
-
 
     @push('scripts')
     <script src="{{ Vite::asset('resources/js/fullcalendarCore.js') }}"></script>

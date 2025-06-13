@@ -13,12 +13,14 @@
                                     </div>
                                 </div>
                                 <div class="justify-end">
+                                    @if(Auth::user()->is_admin !== 0)
                                     <a href="{{ route('projects.edit', ['project_id' => $project->id]) }}">{{__('Edit')}}</a>
                                     <form method="POST" action="{{ route('projects.destroy', ['project_id' => $project->id]) }}">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
                                     </form>
+                                    @endif
                                 </div>
                             </div>
                             <div>
@@ -30,11 +32,13 @@
                             <p class="text-dark font-normal leading-snug break-all">{{ $project->description }}</p>
                         </div>
                     </div>
+                    @if(Auth::user()->is_admin !== 0)
                     <div>
                         <label for="Tasks">{{__('Task')}}:</label>
                         <br />
                         <a href="{{ route('tasks.create', ['project_id' => $project->id]) }}">{{__('Add task')}}</a>
                     </div>
+                    @endif
                     @foreach($tasks as $task)
                     <div class="w-full flex-col justify-start items-start gap-8 flex">
                         <div
@@ -49,12 +53,14 @@
                                         </div>
                                     </div>
                                     <div class="justify-end">
+                                        @if(Auth::user()->is_admin !== 0)
                                         <a href="{{ route('tasks.edit', ['task_id'=>$task->id, 'project_id' => $project->id]) }}">{{__('Edit')}}</a>
                                         <form method="POST" action="{{ route('tasks.destroy', ['task_id' => $task->id, 'project_id' => $project->id]) }}">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" onclick="return confirm('Sind Sie sicher?')">{{__('Delete')}}</button>
                                         </form>
+                                        @endif
                                     </div>
                                 </div>
                                 <p class="text-gray-800 font-normal leading-snug break-all"><a href="{{ route('tasks.show', ['task_id' => $task->id,'project_id' => $project->id]) }}">{{ $task->description }}</a></p>

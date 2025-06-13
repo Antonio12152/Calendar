@@ -17,7 +17,7 @@
                         <div>
                             <label for="project_id">{{__('Projects')}}:</label>
                         </div>
-                        <select class="p-1 w-56" name="project_id" id="project_id" form="project_id" wire:model="project_id" wire:change="updateproject_id($event.target.value)">
+                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="project_id" id="project_id" form="project_id" wire:model="project_id" wire:change="updateproject_id($event.target.value)">
                             <option value="">{{__('Select')}}</option>
                             @foreach ($projects as $project)
                             <option value="{{ $project->id }}">{{ $project->name }}</option>
@@ -26,7 +26,7 @@
                         <div>
                             <label for="task_id">{{__('Tasks')}}:</label>
                         </div>
-                        <select class="p-1 w-56" name="task_id" id="task_id" form="task_id" wire:model="task_id">
+                        <select class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" name="task_id" id="task_id" form="task_id" wire:model="task_id">
                             <option value="">{{__('Select')}}</option>
                             @foreach ($this->tasks as $task)
                             <option value="{{ $task->id }}" >{{ $task->name }}</option>

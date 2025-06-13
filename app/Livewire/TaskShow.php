@@ -17,20 +17,20 @@ class TaskShow extends Component
         $this->tasks = Task::where('project_id', $project_id)->get();
     }
 
-    public function toggleTask(Request $request, $task_id)
+    public function toggleTask($task_id)
     {
-        if (!$request->session()->has('open_tasks')) {
-             $request->session()->put('open_tasks', []);
+        if (!session()->has('open_tasks')) {
+             session()->put('open_tasks', []);
         }
-        if (in_array($task_id, $request->session()->get('open_tasks', []))) {
-            $save = $request->session()->get('open_tasks', []);
-            $request->session()->pull('open_tasks', []);
-            $request->session()->put('open_tasks', array_diff($save, [$task_id]));
+        if (in_array($task_id, session()->get('open_tasks', []))) {
+            $save = session()->get('open_tasks', []);
+            session()->pull('open_tasks', []);
+            session()->put('open_tasks', array_diff($save, [$task_id]));
         } else {
-            $request->session()->push('open_tasks', $task_id);
+            session()->push('open_tasks', $task_id);
         }
 
-        $this->refreshTask();
+        $this->dispatch('refresh_component');
     }
 
     public function refreshTask()

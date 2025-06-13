@@ -12,14 +12,14 @@ class JobController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(string $task_id)
+    public function index()
     {
-        $jobs = Job::where('task_id', $task_id)->get();
-        if ($jobs) {
-            return view('tasks.show', compact('jobs'));
-        } else {
-            return "Kein Job mit der Nummer $task_id.";
-        }
+        return view('jobs.index');
+    }
+
+    public function api()
+    {
+        return view('jobs.api');
     }
 
     /**

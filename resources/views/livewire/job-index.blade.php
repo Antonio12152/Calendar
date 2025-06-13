@@ -1,8 +1,4 @@
 <div>
-    {{--<select class="p-1 w-56" name="selected" id="selected" form="selected">
-                    <option value="">{{__('Projects')}}</option>
-    <option value="jobs">{{__('My jobs')}}</option>
-    </select>--}}
     <section class="w-full bg-white p-6 shadow-md rounded-lg">
         <div class="justify-start items-center gap-2.5 flex">
             <div class="inline-flex rounded-md shadow-xs" role="group">
@@ -67,26 +63,9 @@
                     meridiem: false
                 },
                 eventClick: function(info) {
-                    window.location.href = `projects/${info.event.id}`;
+                    console.log(info.event)
+                    window.location = `${window.location.origin}/projects/${info.event.extendedProps.project_id}/tasks/${info.event.extendedProps.task_id}`;
                 },
-                eventDidMount: function(info) {
-                    const tasks = info.event.extendedProps.tasks;
-                    if (!tasks || tasks.length == 0) return;
-                    const data = tasks.map(task => {
-                        return `<div>
-                                    <a href="/projects/${info.event.id}/tasks/${task.id}">${task.title}</a>
-                                </div>`;
-                    }).join('');
-
-                    tippy(info.el, {
-                        content: data,
-                        allowHTML: true,
-                        flipBehavior: "flip",
-                        interactive: true,
-                        delay: [0, 200],
-                        hideOnClick: false
-                    })
-                }
             });
             calendar.render();
         }

@@ -13,6 +13,11 @@ class ProjectController extends Controller
     {
         return view('projects.index');
     }
+    public function api()
+    {
+        return view('projects.api');
+    }
+    
     public function create()
     {
         return view('projects.create');

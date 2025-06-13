@@ -35,6 +35,8 @@ class JobCreate extends Component
 
     protected $messages = [
         'name.required' => 'Das Namefeld ist erforderlich.',
+        'project_id.required'=> 'Das Projectfeld ist erforderlich.',
+        'task_id.required'=> 'Das Taskfeld ist erforderlich.',
         'description.required' => 'Das Beschreibungsfeld ist erforderlich.',
         'start.after_or_equal' => 'Das Startfeld muss ein Datum nach dem aktuellen Datum und Uhrzeit sein.',
         'end.after' => 'Das Endefeld muss ein Datum nach dem Startfeld sein.',

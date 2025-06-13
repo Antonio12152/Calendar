@@ -21,5 +21,4 @@
         </div>
     </section>
     {{--alpine stuff, if duplicate delete--}}
-    @livewireScripts 
 </x-app-layout>

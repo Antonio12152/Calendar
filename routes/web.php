@@ -42,8 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('projects/{project_id}/tasks/{task_id}/edit', [TaskController::class, 'edit'])->name('tasks.edit')->middleware(IsAdminMiddleware::class);
     Route::delete('projects/{project_id}/tasks/{task_id}/delete', [TaskController::class, 'destroy'])->name('tasks.destroy')->middleware(IsAdminMiddleware::class);
 
-    Route::get('projects/tasks/jobs/create', [JobController::class, 'create'])->name('jobs.create')->middleware(IsAdminMiddleware::class);
-    Route::get('projects/{project_id}/tasks/{task_id}/jobs/{job_id}/edit', [JobController::class, 'edit'])->name('jobs.edit')->middleware(IsAdminMiddleware::class);
+    Route::get('projects/tasks/jobs/', [JobController::class, 'index'])->name('jobs.index');
+    Route::get('projects/tasks/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+    Route::get('projects/{project_id}/tasks/{task_id}/jobs/{job_id}/edit', [JobController::class, 'edit'])->name('jobs.edit');
     Route::delete('projects/{project_id}/tasks/{task_id}/jobs/{job_id}/delete', [JobController::class, 'destroy'])->name('jobs.destroy')->middleware(IsAdminMiddleware::class);
 });
 
